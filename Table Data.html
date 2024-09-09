@@ -1,0 +1,106 @@
+
+<script>
+function Add() {
+  AddRow($("#txtName").val(), $("#txtEmail").val(), $("#txtCity").val());
+  $("#txtName").val("");
+  $("#txtEmail").val("");
+  $("#txtCity").val("");
+};
+
+function AddRow(name, email, city) {
+
+  var tBody = $("#tblCustomers > TBODY")[0];
+
+  row = tBody.insertRow(-1);
+
+
+  var cell = $(row.insertCell(-1));
+  cell.html(name);
+
+  cell = $(row.insertCell(-1));
+  cell.html(email);
+
+  cell = $(row.insertCell(-1));
+  cell.html(city);
+
+  cell = $(row.insertCell(-1));
+  var btnRemove = $("<input />");
+  btnRemove.attr("type", "button");
+  btnRemove.attr("onclick", "Remove(this);");
+  btnRemove.val("Remove");
+  var btnEdit = $("<input />");
+  btnEdit.attr("type", "button");
+  btnEdit.attr("onclick", "Edit(this);");
+  btnEdit.val("Edit");
+  cell.append(btnRemove, " ", btnEdit);
+};
+
+function Remove(button) {
+
+  var row = $(button).closest("TR");
+  var name = $("TD", row).eq(0).html();
+  console.log(row, name, row[0].rowIndex);
+  if (confirm("Do you want to delete: " + name)) {
+
+    var table = $("#tblCustomers")[0];
+
+    table.deleteRow(row[0].rowIndex);
+  }
+};
+
+function Edit(button) {
+
+  var row = $(button).closest("TR");
+  var index = row.index();
+  var name = $("TD", row).eq(0).html();
+  var email = $("TD", row).eq(1).html();
+  var city = $("TD", row).eq(2).html();
+
+  if (confirm("Do you want to update: " + name)) {
+
+    var table = $("#tblCustomers")[0];
+    $("#txtName").val(name);
+    $("#txtEmail").val(email);
+    $("#txtCity").val(city);
+
+    $('#button1').html("<input type='button' value='Update' onclick='update(this," + index + ");'> <input type='button' value='Cancel' onclick=Cancel();>");
+    return false;
+  }
+};
+
+function update(button, trindex) {
+  var row = $("table tbody tr:eq(" + trindex + ")");
+  row.find("td:eq(0)").html($("#txtName").val())
+  row.find("td:eq(1)").html($("#txtEmail").val())
+  row.find("td:eq(2)").html($("#txtCity").val())
+  $('#button1').html("<input type='button' value='Add' onclick=Add();>");
+};
+
+function Cancel() {
+  $('#button1').html("<input type='button' value='Add' onclick=Add();>");
+  $("#txtName").val("");
+  $("#txtEmail").val("");
+  $("#txtCity").val("");
+  return false;
+}
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<form>
+  Name: <input type="text" id="txtName" placeholder=" Name"><br><br> Email: <input type="text" id="txtEmail" placeholder=" Email"><br><br> City: <input type="text" id="txtCity" placeholder=" City"><br><br>
+  <div id="button1"> <input type="button" id="add" onclick="Add()" value="Add Row"> </div>
+</form>
+<table id="tblCustomers">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>City</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+How to filter listbox values based on a Textbox value
