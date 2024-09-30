@@ -1,13 +1,15 @@
 
 <script>
 function Add() {
-  AddRow($("#txtName").val(), $("#txtEmail").val(), $("#txtCity").val());
+  AddRow($("#txtName").val(), $("#txtEmail").val(), $("#txtCity").val() , $("#txtid").val());
   $("#txtName").val("");
   $("#txtEmail").val("");
   $("#txtCity").val("");
+  $("txtid").val("");
+  
 };
 
-function AddRow(name, email, city) {
+function AddRow(name, email, city,id) {
 
   var tBody = $("#tblCustomers > TBODY")[0];
 
@@ -22,6 +24,8 @@ function AddRow(name, email, city) {
 
   cell = $(row.insertCell(-1));
   cell.html(city);
+  cell =$(row.insertCell(-1));
+  cell.html(id);
 
   cell = $(row.insertCell(-1));
   var btnRemove = $("<input />");
@@ -55,6 +59,7 @@ function Edit(button) {
   var name = $("TD", row).eq(0).html();
   var email = $("TD", row).eq(1).html();
   var city = $("TD", row).eq(2).html();
+  var id = $("TD" ,row).eq(3).html();
 
   if (confirm("Do you want to update: " + name)) {
 
@@ -62,6 +67,7 @@ function Edit(button) {
     $("#txtName").val(name);
     $("#txtEmail").val(email);
     $("#txtCity").val(city);
+    $("#txtid").val(id);
 
     $('#button1').html("<input type='button' value='Update' onclick='update(this," + index + ");'> <input type='button' value='Cancel' onclick=Cancel();>");
     return false;
@@ -73,6 +79,7 @@ function update(button, trindex) {
   row.find("td:eq(0)").html($("#txtName").val())
   row.find("td:eq(1)").html($("#txtEmail").val())
   row.find("td:eq(2)").html($("#txtCity").val())
+  row.find("td:eq(3)").html($("#txtid").val())
   $('#button1').html("<input type='button' value='Add' onclick=Add();>");
 };
 
